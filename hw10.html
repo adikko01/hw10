@@ -1,0 +1,46 @@
+<!doctype html>
+<html>
+    <head>
+    <meta charset="utf-8">
+    <title>Assignment #10</title>
+    <style></style>
+    <script>
+    function get_humidity(){
+        request = new XMLHttpRequest();
+        console.log("1 - request object created");
+        
+        request.open("GET", "http://api.openweathermap.org/data/2.5/weather?q=Lagos,ng&APPID=c76ec562144d00ba8d4e1b196078917b", true);
+        console.log("2 - opened request file");
+        
+        request.onreadystatechange = function() {
+            console.log("3 - readystatechange event fired.");
+            
+            if (request.readyState == 4 && request.status == 200) {
+                result = request.responseText;
+                //alert(result);
+                weather = JSON.parse(result);
+                
+                document.getElementById("data").innerHTML = "The humidity in Lagos, Nigeria is: " + weather["main"]["humidity"] + "%";
+            }
+            else if (request.readyState == 4 && request.status != 200) {
+                document.getElementById("data").innerHTML = "ERROR";
+            }
+            else if (request.readyState == 3) {
+                document.getElementById("data").innerHTML = "TRY AGAIN LATER";
+            }
+        }
+        request.send();
+        console.log("4 - Request sent");
+    }
+    </script>
+    </head>
+    <body onload="get_humidity()">
+        <h1>Current Humidity Levels</h1>
+        <div id = "data"></div>
+        <p>I used the Current Weather OpenWeather API; it provides coordinates, weather information, and timezone information for a requested location. <br><br>
+        I found this API at https://openweathermap.org/api and requested the current humidity levels in Lagos, Nigeria. <br><br> 
+        This API would be useful on an airline's website (if they have service to Lagos); this API would also be useful on a Lagos hair salon website - the humidity levels might help customers decide what hairstyle they might want to choose.</p>
+    </body>
+</html>
+    
+        
